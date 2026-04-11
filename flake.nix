@@ -54,133 +54,51 @@
             "libfbclient.so.2"
             "libclntsh.so.23.1"
             "libtiff.so.5"
-            "libQt6RemoteObjects.so.6"
-            "libQt6MultimediaWidgets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SerialPort.so.6"
-            "libQt6Positioning.so.6"
-            "libQt6StateMachine.so.6"
-            "libQt6Nfc.so.6"
-            "libQt6Bluetooth.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6PdfWidgets.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6WebChannel.so.6"
-            "libQt6Help.so.6"
-            "libQt6TextToSpeech.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SpatialAudio.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6WebSockets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6Quick3D.so.6"
-            "libQt6Quick3DRuntimeRender.so.6"
-            "libQt6Quick3DUtils.so.6"
-            "libQt6ShaderTools.so.6"
-            "libQt6Quick3DParticleEffects.so.6"
-            "libQt6Scxml.so.6"
-            "libQt6WebEngineQuick.so.6"
-            "libQt6WebEngineCore.so.6"
-            "libQt6WebViewQuick.so.6"
-            "libQt6WebView.so.6"
-            "libQt6RemoteObjects.so.6"
-            "libQt6MultimediaWidgets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SerialPort.so.6"
-            "libQt6Positioning.so.6"
-            "libQt6StateMachine.so.6"
-            "libQt6Nfc.so.6"
-            "libQt6Bluetooth.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6PdfWidgets.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6WebChannel.so.6"
-            "libQt6Help.so.6"
-            "libQt6TextToSpeech.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SpatialAudio.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6WebSockets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6Quick3D.so.6"
-            "libQt6Quick3DRuntimeRender.so.6"
-            "libQt6Quick3DUtils.so.6"
-            "libQt6RemoteObjects.so.6"
-            "libQt6MultimediaWidgets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SerialPort.so.6"
-            "libQt6Positioning.so.6"
-            "libQt6StateMachine.so.6"
-            "libQt6Nfc.so.6"
-            "libQt6Bluetooth.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6PdfWidgets.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6WebChannel.so.6"
-            "libQt6Help.so.6"
-            "libQt6TextToSpeech.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SpatialAudio.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6WebSockets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6Quick3D.so.6"
-            "libQt6Quick3DRuntimeRender.so.6"
-            "libQt6Quick3DUtils.so.6"
-            "libQt6ShaderTools.so.6"
-            "libQt6RemoteObjects.so.6"
-            "libQt6MultimediaWidgets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SerialPort.so.6"
-            "libQt6Positioning.so.6"
-            "libQt6StateMachine.so.6"
-            "libQt6Nfc.so.6"
-            "libQt6Bluetooth.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6PdfWidgets.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6WebChannel.so.6"
-            "libQt6Help.so.6"
-            "libQt6TextToSpeech.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SpatialAudio.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6WebSockets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6Quick3D.so.6"
-            "libQt6Quick3DRuntimeRender.so.6"
-            "libQt6Quick3DUtils.so.6"
-            "libQt6ShaderTools.so.6"
-            "libQt6RemoteObjects.so.6"
-            "libQt6MultimediaWidgets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SerialPort.so.6"
-            "libQt6Positioning.so.6"
-            "libQt6StateMachine.so.6"
-            "libQt6Nfc.so.6"
-            "libQt6Bluetooth.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6PdfWidgets.so.6"
-            "libQt6Pdf.so.6"
-            "libQt6WebChannel.so.6"
-            "libQt6Help.so.6"
-            "libQt6TextToSpeech.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6SpatialAudio.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6WebSockets.so.6"
-            "libQt6Multimedia.so.6"
-            "libQt6Quick3D.so.6"
-            "libQt6Quick3DRuntimeRender.so.6"
-            "libQt6Quick3DUtils.so.6"
-            "libQt6ShaderTools.so.6"
           ];
           propagatedBuildInputs = old.propagatedBuildInputs or [ ] ++ [
             (pkgs.qt6.env "$qt6-pyqt6-${pkgs.qt6.qtbase.version}" [
               pkgs.qt6.qtbase
               pkgs.qt6.qt3d
               pkgs.qt6.qt5compat
+              pkgs.qt6.qtcharts
+              pkgs.qt6.qtconnectivity
+              pkgs.qt6.qtdatavis3d
+              pkgs.qt6.qtdeclarative
+              pkgs.qt6.qtdoc
+              pkgs.qt6.qtgraphs
+              pkgs.qt6.qtgrpc
+              pkgs.qt6.qthttpserver
+              pkgs.qt6.qtimageformats
+              pkgs.qt6.qtlanguageserver
+              pkgs.qt6.qtlocation
+              pkgs.qt6.qtlottie
+              pkgs.qt6.qtmultimedia
+              pkgs.qt6.qtmqtt
+              pkgs.qt6.qtnetworkauth
+              pkgs.qt6.qtpositioning
+              pkgs.qt6.qtsensors
+              pkgs.qt6.qtserialbus
+              pkgs.qt6.qtserialport
+              pkgs.qt6.qtshadertools
+              pkgs.qt6.qtspeech
+              pkgs.qt6.qtquick3d
+              pkgs.qt6.qtquick3dphysics
+              pkgs.qt6.qtquickeffectmaker
+              pkgs.qt6.qtquicktimeline
+              pkgs.qt6.qtremoteobjects
+              pkgs.qt6.qtsvg
+              pkgs.qt6.qtscxml
+              pkgs.qt6.qttools
+              pkgs.qt6.qttranslations
+              pkgs.qt6.qtvirtualkeyboard
+              pkgs.qt6.qtwebchannel
+              pkgs.qt6.qtwebengine
+              pkgs.qt6.qtwebsockets
+              pkgs.qt6.qtwebview
+              pkgs.libGL
             ])
+            pkgs.mesa
+            pkgs.libglvnd
             pkgs.libxkbcommon
             pkgs.gtk3
             pkgs.speechd
@@ -215,7 +133,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          python = pkgs.python3;
+          python = pkgs.python313;
         in
         (pkgs.callPackage pyproject-nix.build.packages {
           inherit python;
@@ -235,7 +153,14 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          pythonSet = pythonSets.${system}.overrideScope editableOverlay;
+          pythonSet = pythonSets.${system}.overrideScope (
+            lib.composeManyExtensions [
+              editableOverlay
+              pyproject-build-systems.overlays.wheel
+              overlay
+              (pyqt6Overrides pkgs)
+            ]
+          );
           virtualenv = pythonSet.mkVirtualEnv "hello-world-dev-env" workspace.deps.all;
         in
         {
