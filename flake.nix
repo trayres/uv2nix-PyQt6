@@ -182,8 +182,34 @@
         }
       );
 
-      packages = forAllSystems (system: {
-        default = pythonSets.${system}.mkVirtualEnv "hello-world-env" workspace.deps.default;
-      });
-    };
-}
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          pythonSet = pythonSets.${system}.overrideScope (
+            lib.composeManyExtensions [
+              pyproject-build-systems.overlays.wheel
+              overlay
+              (pyqt6Overrides pkgs)
+            ]
+          );
+          virtualenv = pythonSet.mkVirtualEnv "hello-world-dev-env" workspace.deps.all;
+        in
+        {
+          default = pkgs.writeShellApplication {
+            name = "pyqt-hw-shellapp";
+            runtimeInputs = [
+              virtualenv
+              pkgs.uv
+            ];
+            # Note: "$@" should pass command-line arguments to your application.
+            # It is unused in this demo, but included for completeness.
+            text = ''
+              exec uv run hello "$@"
+            '';
+          };
+        }
+      );
+
+    }; # End: In
+} # End: Flake
