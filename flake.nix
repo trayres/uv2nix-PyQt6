@@ -44,19 +44,13 @@
       editableOverlay = workspace.mkEditablePyprojectOverlay {
         root = "$REPO_ROOT";
       };
-      pyqt6Overrides = pkgs: final: prev: {
-        # https://pypi.org/project/PyQt6-Qt6/
-        # https://github.com/nix-community/poetry2nix/blob/1fb01e90771f762655be7e0e805516cd7fa4d58e/overrides/default.nix#L2871
-        pyqt6-qt6 = prev.pyqt6-qt6.overrideAttrs (old: {
-          autoPatchelfIgnoreMissingDeps = [
-            "libmysqlclient.so.21"
-            "libmimerapi.so"
-            "libfbclient.so.2"
-            "libclntsh.so.23.1"
-            "libtiff.so.5"
-          ];
-          propagatedBuildInputs = old.propagatedBuildInputs or [ ] ++ [
-            (pkgs.qt6.env "$qt6-pyqt6-${pkgs.qt6.qtbase.version}" [
+      pyqt6Overrides =
+        final: prev:
+        let
+          inherit (final) pkgs;
+
+          qt6Env = (
+            pkgs.qt6.env "$qt6-pyqt6-${pkgs.qt6.qtbase.version}" [
               pkgs.qt6.qtbase
               pkgs.qt6.qt3d
               pkgs.qt6.qt5compat
@@ -96,38 +90,51 @@
               pkgs.qt6.qtwebsockets
               pkgs.qt6.qtwebview
               pkgs.libGL
-            ])
-            pkgs.mesa
-            pkgs.libglvnd
-            pkgs.libxkbcommon
-            pkgs.gtk3
-            pkgs.speechd
-            pkgs.gst
-            pkgs.gst_all_1.gst-plugins-base
-            pkgs.gst_all_1.gstreamer
-            pkgs.postgresql.lib
-            pkgs.unixodbc
-            pkgs.pcsclite
-            pkgs.libxcb
-            pkgs.libxcb-util
-            pkgs.libxcb-cursor
-            pkgs.libxcb-errors
-            pkgs.libxcb-image
-            pkgs.libxcb-keysyms
-            pkgs.libxcb-render-util
-            pkgs.libxcb-wm
-            pkgs.libdrm
-            pkgs.pulseaudio
-          ];
-        });
+            ]
+          );
 
-        # https://pypi.org/project/PyQt6/
-        pyqt6 = prev.pyqt6.overrideAttrs (old: {
-          buildInputs = old.buildInputs or [ ] ++ [
-            final.pyqt6-qt6
-          ];
-        });
-      };
+          overrideQt6 = old: {
+            autoPatchelfIgnoreMissingDeps = [
+              "libmysqlclient.so.21"
+              "libmimerapi.so"
+              "libfbclient.so.2"
+              "libclntsh.so.23.1"
+              "libtiff.so.5"
+            ];
+            buildInputs = old.buildInputs or [ ] ++ [
+              qt6Env
+              pkgs.mesa
+              pkgs.libglvnd
+              pkgs.libxkbcommon
+              pkgs.gtk3
+              pkgs.speechd
+              pkgs.gst
+              pkgs.gst_all_1.gst-plugins-base
+              pkgs.gst_all_1.gstreamer
+              pkgs.postgresql.lib
+              pkgs.unixodbc
+              pkgs.pcsclite
+              pkgs.libxcb
+              pkgs.libxcb-util
+              pkgs.libxcb-cursor
+              pkgs.libxcb-errors
+              pkgs.libxcb-image
+              pkgs.libxcb-keysyms
+              pkgs.libxcb-render-util
+              pkgs.libxcb-wm
+              pkgs.libdrm
+              pkgs.pulseaudio
+            ];
+          };
+        in
+        {
+          # https://pypi.org/project/PyQt6-Qt6/
+          # https://github.com/nix-community/poetry2nix/blob/1fb01e90771f762655be7e0e805516cd7fa4d58e/overrides/default.nix#L2871
+          pyqt6-qt6 = prev.pyqt6-qt6.overrideAttrs overrideQt6;
+
+          # https://pypi.org/project/PyQt6/
+          pyqt6 = prev.pyqt6.overrideAttrs overrideQt6;
+        };
 
       pythonSets = forAllSystems (
         system:
@@ -142,7 +149,7 @@
             lib.composeManyExtensions [
               pyproject-build-systems.overlays.wheel
               overlay
-              (pyqt6Overrides pkgs)
+              pyqt6Overrides
             ]
           )
       );
@@ -158,7 +165,7 @@
               editableOverlay
               pyproject-build-systems.overlays.wheel
               overlay
-              (pyqt6Overrides pkgs)
+              pyqt6Overrides
             ]
           );
           virtualenv = pythonSet.mkVirtualEnv "hello-world-dev-env" workspace.deps.all;
@@ -190,23 +197,17 @@
             lib.composeManyExtensions [
               pyproject-build-systems.overlays.wheel
               overlay
-              (pyqt6Overrides pkgs)
+              pyqt6Overrides
             ]
           );
+          inherit (pkgs.callPackages pyproject-nix.build.util { }) mkApplication;
+
           virtualenv = pythonSet.mkVirtualEnv "hello-world-dev-env" workspace.deps.all;
         in
         {
-          default = pkgs.writeShellApplication {
-            name = "pyqt-hw-shellapp";
-            runtimeInputs = [
-              virtualenv
-              pkgs.uv
-            ];
-            # Note: "$@" should pass command-line arguments to your application.
-            # It is unused in this demo, but included for completeness.
-            text = ''
-              exec uv run hello "$@"
-            '';
+          default = mkApplication {
+            venv = virtualenv;
+            package = pythonSet.hello-world;
           };
         }
       );
