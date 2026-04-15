@@ -175,6 +175,7 @@
             packages = [
               virtualenv
               pkgs.uv
+              pkgs.hello
             ];
             env = {
               UV_NO_SYNC = "1";
@@ -208,6 +209,7 @@
           default = mkApplication {
             venv = virtualenv;
             package = pythonSet.hello-world;
+            runtimeInputs = [ pkgs.hello ];
           };
         }
       );
