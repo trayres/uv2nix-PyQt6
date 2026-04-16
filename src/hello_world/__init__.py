@@ -1,5 +1,6 @@
 def hello():
     from PyQt6.QtWidgets import QApplication, QWidget
+    import subprocess
 
     # Only needed for access to command line arguments
     import sys
@@ -12,6 +13,11 @@ def hello():
     # Create a Qt widget, which will be our window.
     window = QWidget()
     window.show()  # IMPORTANT!!!!! Windows are hidden by default.
-
+    result = subprocess.run(["hello"], capture_output=True, text=True)
+    print(result.stdout)
     # Start the event loop.
     app.exec()
+
+
+if __name__=="__main__":
+    hello()

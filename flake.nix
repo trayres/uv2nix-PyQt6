@@ -24,7 +24,7 @@
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
       pyproject-nix,
       uv2nix,
@@ -201,15 +201,17 @@
               pyqt6Overrides
             ]
           );
-          inherit (pkgs.callPackages pyproject-nix.build.util { }) mkApplication;
 
-          virtualenv = pythonSet.mkVirtualEnv "hello-world-dev-env" workspace.deps.all;
+          virtualenv = pythonSet.mkVirtualEnv "hello-world-env" workspace.deps.all;
         in
         {
-          default = mkApplication {
-            venv = virtualenv;
-            package = pythonSet.hello-world;
-            runtimeInputs = [ pkgs.hello ];
+          default = pkgs.writeShellApplication {
+            name = "hw-example-pyqt";
+            runtimeInputs = [
+              virtualenv
+              pkgs.hello
+            ];
+            text = "python ${inputs.self.outPath}/src/hello_world/__init__.py";
           };
         }
       );
